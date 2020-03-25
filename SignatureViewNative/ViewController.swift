@@ -58,7 +58,7 @@ class Canvas: UIView {
   
 }
 
-
+var canvas = Canvas()
 
 class ViewController: UIViewController {
   
@@ -66,7 +66,7 @@ class ViewController: UIViewController {
   @IBOutlet weak var signatureView: UIView!
   
 
-  let canvas = Canvas()
+
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -82,5 +82,8 @@ class ViewController: UIViewController {
     canvas.clear()
   }
 
+  @IBAction func submitButton(_ sender: Any) {
+    performSegue(withIdentifier: "segue", sender: self)
+  }
 }
 

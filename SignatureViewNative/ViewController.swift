@@ -18,6 +18,8 @@ class Canvas: UIView {
   }
   
   func isEmpty() -> Bool{
+    print(lines)
+    print(lines.count)
     if (lines.count == 0) {
       return true
     }

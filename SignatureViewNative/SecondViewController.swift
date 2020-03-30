@@ -22,7 +22,7 @@ class SecondViewController: UIViewController {
   
   override func viewDidAppear(_ animated: Bool) {
     view.addSubview(canvas)
-    canvas.backgroundColor = .gray
+    canvas.backgroundColor = .white
     canvas.frame = signature.frame
     
   }

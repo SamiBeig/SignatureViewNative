@@ -17,6 +17,15 @@ class Canvas: UIView {
     setNeedsDisplay()
   }
   
+  func isEmpty() -> Bool{
+    if (lines.count == 0) {
+      return true
+    }
+    else{
+      return false
+    }
+  }
+  
   override func draw(_ rect: CGRect) {
     super.draw(rect)
     
@@ -73,8 +82,10 @@ class ViewController: UIViewController {
     
     
     view.addSubview(canvas)
-    canvas.backgroundColor = .gray
+    canvas.backgroundColor = .white
     canvas.frame = signatureView.frame
+    canvas.layer.borderWidth = 6.0
+    canvas.layer.borderColor = UIColor.black.cgColor
     
   }
   
@@ -83,7 +94,23 @@ class ViewController: UIViewController {
   }
 
   @IBAction func submitButton(_ sender: Any) {
-    performSegue(withIdentifier: "segue", sender: self)
+    if(canvas.isEmpty() == true){
+      let alert = UIAlertController(title: "No signature detected!",
+        message: "",
+        preferredStyle: .alert)
+      let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+      
+      alert.addAction(action)
+      
+      present(alert, animated: true, completion: nil)
+      
+      //print("LINES IS EMPTY")
+    }
+    else{
+      performSegue(withIdentifier: "segue", sender: self)
+      //print("LINES IS NOT EMPTY")
+    }
   }
+  
 }
 

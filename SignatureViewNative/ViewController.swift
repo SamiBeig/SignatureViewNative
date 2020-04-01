@@ -8,23 +8,31 @@
 
 import UIKit
 
+//Toggle used to display placeholder, true = display, false = hide
+var toggle = true
 
 class Canvas: UIView {
   
   
   func clear(){
     lines.removeAll()
+    toggle = true
     setNeedsDisplay()
   }
   
   func isEmpty() -> Bool{
-    print(lines)
-    print(lines.count)
     if (lines.count == 0) {
       return true
     }
     else{
       return false
+    }
+  }
+  
+  //function used to remove the label from the superview
+  func isToggle(){
+    if toggle == false{
+      canvas.removeFromSuperview()
     }
   }
   
@@ -55,6 +63,7 @@ class Canvas: UIView {
   
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     lines.append([CGPoint]())
+
   }
   
   // track the finger as we move across screen
@@ -64,6 +73,12 @@ class Canvas: UIView {
     guard var lastLine = lines.popLast() else { return }
     lastLine.append(point)
     lines.append(lastLine)
+    
+    //Adding these two statements below makes the canvas turn grey instead
+    //of adding lines
+    
+    //toggle = false
+    //isToggle()
     setNeedsDisplay()
   }
   
@@ -76,11 +91,24 @@ class ViewController: UIViewController {
   
   @IBOutlet weak var signatureView: UIView!
   
+  func displayPlaceholder(){
+    let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
+    label.center = CGPoint(x: 375, y: 408)
+    label.textAlignment = .center
+    label.text = "Sign here!"
+    self.view.addSubview(label)
+  }
+
+  
+  
 
 
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+
+
     
     
     view.addSubview(canvas)
@@ -88,8 +116,18 @@ class ViewController: UIViewController {
     canvas.frame = signatureView.frame
     canvas.layer.borderWidth = 6.0
     canvas.layer.borderColor = UIColor.black.cgColor
+
+        
+    displayPlaceholder()
+    //canvas.removeFromSuperview()
+    
+
+      
+
+    
     
   }
+  
   
   @IBAction func clearButton(_ sender: Any) {
     canvas.clear()
@@ -105,14 +143,18 @@ class ViewController: UIViewController {
       alert.addAction(action)
       
       present(alert, animated: true, completion: nil)
-      
-      //print("LINES IS EMPTY")
     }
     else{
+      //Convert to png
+   
+      
+      
+      
+      //segue to new screen
       performSegue(withIdentifier: "segue", sender: self)
-      //print("LINES IS NOT EMPTY")
     }
   }
   
+
 }
 

@@ -153,6 +153,16 @@ class ViewController: UIViewController {
     else{
 
       //Convert to png
+      
+      //Helpful resources for conversion
+      // https:www.hackingwithswift.com/example-code/media/how-to-save-a-uiimage-to-a-file-using-jpegdata-and-pngdata
+      // http://www.mikitamanko.com/blog/2016/05/18/swift-how-to-render-a-uiview-to-a-uiimage/
+      // https://stackoverflow.com/questions/31020608/convert-uiview-to-png-in-swift
+      
+      //The idea is to think of this with two approaches:
+      //A.) Convert UIView --> PNG
+      //B.) Convert UIView --> UIImage then UIImage --> PNG
+      //The approach that was attempted in the following code is option B
          
          //Convert UIView to UIImage
          UIGraphicsBeginImageContextWithOptions(view.bounds.size, true, 0)

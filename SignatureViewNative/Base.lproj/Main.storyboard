@@ -89,7 +89,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="Mq7-qU-2u6"/>
                     <connections>
-                        <outlet property="signatureView" destination="NXQ-BD-Gbc" id="eHs-HI-jfp"/>
+                        <outlet property="signature" destination="NXQ-BD-Gbc" id="BeD-h9-RVZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EgP-bU-8ud" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

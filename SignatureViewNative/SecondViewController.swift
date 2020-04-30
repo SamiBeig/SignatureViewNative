@@ -10,8 +10,9 @@ import UIKit
 
 class SecondViewController: UIViewController {
 
-  @IBOutlet weak var signature: UIView!
+
   
+  @IBOutlet weak var signatureView: UIView!
   
   
     override func viewDidLoad() {
@@ -21,11 +22,12 @@ class SecondViewController: UIViewController {
     }
   
   override func viewDidAppear(_ animated: Bool) {
-    view.addSubview(canvas)
-    canvas.frame = signature.frame
-    canvas.backgroundColor = .white
-    canvas.layer.borderWidth = 0.0
-    canvas.layer.borderColor = UIColor.white.cgColor
+    
+    view.addSubview(signature)
+    signature.frame = signatureView.frame
+    signature.backgroundColor = .white
+    signature.layer.borderWidth = 0.0
+    signature.layer.borderColor = UIColor.white.cgColor
 
     
   }

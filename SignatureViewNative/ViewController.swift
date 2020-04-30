@@ -11,7 +11,7 @@ import UIKit
 //Toggle used to display placeholder, true = display, false = hide
 var toggle = true
 
-class Canvas: UIView {
+class Signature: UIView {
   
   
   func clear(){
@@ -32,7 +32,7 @@ class Canvas: UIView {
   //function used to remove the label from the superview
   func isToggle(){
     if toggle == false{
-      canvas.removeFromSuperview()
+      label.isHidden = true
     }
   }
   
@@ -73,18 +73,17 @@ class Canvas: UIView {
     guard var lastLine = lines.popLast() else { return }
     lastLine.append(point)
     lines.append(lastLine)
-    
-    //Adding these two statements below makes the canvas turn grey instead
-    //of adding lines
-    
-    //toggle = false
-    //isToggle()
+
+    toggle = false
+    isToggle()
     setNeedsDisplay()
   }
   
 }
 
-var canvas = Canvas()
+var signature = Signature()
+var label: UILabel!
+
 
 class ViewController: UIViewController {
   
@@ -92,7 +91,7 @@ class ViewController: UIViewController {
   @IBOutlet weak var signatureView: UIView!
   
   func displayPlaceholder(){
-    let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
+    label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
     label.center = CGPoint(x: 375, y: 408)
     label.textAlignment = .center
     label.text = "Sign here!"
@@ -111,11 +110,11 @@ class ViewController: UIViewController {
 
     
     
-    view.addSubview(canvas)
-    canvas.backgroundColor = .white
-    canvas.frame = signatureView.frame
-    canvas.layer.borderWidth = 6.0
-    canvas.layer.borderColor = UIColor.black.cgColor
+    view.addSubview(signature)
+    signature.backgroundColor = .white
+    signature.frame = signatureView.frame
+    signature.layer.borderWidth = 6.0
+    signature.layer.borderColor = UIColor.black.cgColor
 
         
     displayPlaceholder()
@@ -128,13 +127,20 @@ class ViewController: UIViewController {
     
   }
   
+  //helper function to help convert to png
+  func getDocumentsDirectory() -> URL {
+      let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+      return paths[0]
+  }
+  
   
   @IBAction func clearButton(_ sender: Any) {
-    canvas.clear()
+    label.isHidden = false
+    signature.clear()
   }
 
   @IBAction func submitButton(_ sender: Any) {
-    if(canvas.isEmpty() == true){
+    if(signature.isEmpty() == true){
       let alert = UIAlertController(title: "No signature detected!",
         message: "",
         preferredStyle: .alert)
@@ -145,10 +151,26 @@ class ViewController: UIViewController {
       present(alert, animated: true, completion: nil)
     }
     else{
+      
       //Convert to png
-   
+      
+      //Convert UIView to UIImage
+      UIGraphicsBeginImageContextWithOptions(view.bounds.size, true, 0)
+      view.drawHierarchy(in: view.bounds, afterScreenUpdates: true)
+      let image = UIGraphicsGetImageFromCurrentImageContext()
+      UIGraphicsEndImageContext()
       
       
+      //Convert UIImage to PNG
+      if let image2 = UIImage(named: "example.png") {
+          if let data = image2.pngData() {
+              let filename = getDocumentsDirectory().appendingPathComponent("copy.png")
+              try? data.write(to: filename)
+              print("Converted to PNG")
+          }
+      }
+    
+           
       
       //segue to new screen
       performSegue(withIdentifier: "segue", sender: self)
